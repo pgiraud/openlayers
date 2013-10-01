@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>OpenLayers Mobile Measure</title>
+        <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <script src="../lib/OpenLayers.js" type="text/javascript"></script>
+        <script src="./mobile-measure.js" type="text/javascript"></script>
+        <script src="./MobileMeasure.js" type="text/javascript"></script>
+        <style>
+
+div.MobileMeasure {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+    border-radius: 4px 4px 4px 4px;
+    right: 8px;
+    padding: 2px;
+    position: absolute;
+    bottom: 20px;
+}
+div.MobileMeasure a {
+    background: none repeat scroll 0 0;
+    background-color: rgba(120, 120, 120, 0.5);
+    background-size: 32px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAABVQTFRF////VVdT09fPUlNRkZOPPFpuUFBQ7vyTVAAAAAV0Uk5TAP39/v7bQTtgAAAAQklEQVQY02NgoBiwwhgBGJxQKMDkICvDCRgFDYWhSICBUSlJDYowOE4qSkkqIBLEAYIkEAHjOCFzlGAcQTgQIMfTABTCE7IGuad/AAAAAElFTkSuQmCC);
+    display: block;
+    font-family: sans-serif;
+    font-size: 28px;
+    height: 32px;
+    line-height: 28px;
+    margin: 1px;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    width: 32px;
+    border-radius: 4px;
+}
+div.MobileMeasure a.active {
+    background-color: rgba(0, 60, 136, 0.5);
+    background-size: 32px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjRBRUI4M0U0MTA0MTFFMUE0NThDNzExOUY0RDhGMDQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjRBRUI4M0Y0MTA0MTFFMUE0NThDNzExOUY0RDhGMDQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3NkZCMEU4QjQwNjExMUUxQTQ1OEM3MTE5RjREOEYwNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3NkZCMEU4QzQwNjExMUUxQTQ1OEM3MTE5RjREOEYwNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgG96f8AAADsSURBVHja7JZRCoMwDIZ1sBO4eZiBeJYNvf/UvQ2XJRBGVjWtkOJLCv9Li/k/myZtCQDFkaN0AAdwgKMBCgLQtDIuSrjr7vg7Ae6oAdWsmNPciOpzAZD5TDFRUwDR8BytfSSEFcBDmEMAIc1BQHRWABXqGRhIiGljjdJRW+3AjQNCol6o1voMpEL8zHNUQQzizzwF4LSzbZxR2jd0+N65GlHLfxhLwcg7ZZqCVPMFhAVAreRdK0Mq3cpqBzrOb2ojmrl5mVZBLyC0Vjxz285Shj2nY+syGqR5DoDVK1e7qmPx/UXkAA7gAF8BBgA3onvLLRYNDwAAAABJRU5ErkJggg==);
+}
+#mobileMeasureHelp {
+  position: absolute;
+  z-index: 800;
+  bottom: 60px;
+  right: 8px;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+    border-radius: 4px 4px 4px 4px;
+    padding: 4px;
+    font-family: sans-serif;
+}
+#centerCross {
+  position: absolute;
+  z-index: 800;
+  color: red;
+  top: 50%;
+  left: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: none;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-top: -15px;
+  margin-left: -15px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#addPointButton,
+#newMeasureButton {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+    border-radius: 4px 4px 4px 4px;
+    right: 48px;
+    padding: 2px;
+    position: absolute;
+    bottom: 20px;
+    z-index: 800;
+}
+#addPointButton a,
+#newMeasureButton a {
+    background: none repeat scroll 0 0;
+    background-color: rgba(120, 120, 120, 0.5);
+    display: block;
+    font-family: sans-serif;
+    height: 32px;
+    line-height: 28px;
+    margin: 1px;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    white-space: nowrap;
+    padding-right: 5px;
+    padding-left: 28px;
+    background-repeat: no-repeat;
+    background-position-x: 8px;
+    background-position-y: 8px;
+}
+#addPointButton a {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAFSOl20AAAAB3RJTUUH2AcWCygF1IlVdQAAAAlwSFlzAAAewgAAHsIBbtB1PgAAAARnQU1BAACxjwv8YQUAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAANklEQVQI12NgYHBgYGBoYBBggAAFMJ+NwQLKZ2HwYahhqGAwgPI5GIBSEj8Y5B8w8DcwMIGEAJvlBcOkypEhAAAAAElFTkSuQmCC);
+}
+#newMeasureButton a {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAsJJREFUeNp0UktIVGEUPve/j7l37h2aCSQRzEU46jg5D3QWBUnaWGKEWTmjNYobF4EERYWYD8bMVUW7XEVGtWsduIloZWoINRkR0oCLWaRCNa/76vzXuRdb+F/O/V/nfN85/3eY2tpaOGgwhAFCyKJpmNcNw/iz/y6bzVozMeHgj+d4kGU5JSvyZ5Zj22mAfWcPYq1tw8ESNiYIwhtJlH673W7T4/EAWp2iKO94gX/IMIywLx440zTtdAVknJLc0rjL5SIIAhzHAc/ze8AsS/c383/zXcViMYFHGQcA6wRRFJ9KkjQiu2VAJisA2RwmCkj3oXCo7kr/ZY+TgfXjuA5MeUSRFeB4DsKRMCQHEuBv8EPfhUtAWKwUiZIDSUgOJt5jyIYDQFFrampmy2rZcmxqaoSpmcm3eDd96kT7suJRTN9hH9y6fQui0ch0WySWLpfLsLW1VQFAqVRdbaVlqKoKvX29q23RWHepVLLSDgQDMJOe2a2uPtIfaYkuaaoG9rvZGbDFQlHA+i0An893p1Qsga7roBENHj959AnveluaQ1l6tl8BS8a19VVAiQAbBTRNgwdz8znqSFkoIAafDDYez+qaLiHZKGY6inPCAQgFw3q9v16lwRRkc3Nz1moVBDB0A5rqAwV6jg11V3SJC6IkLqD/mANA2c51n12jM33QQr5wEVVZAAYOVWoVUNIJZL6HPULlhrEbY/n/AOJd8ckz8U5Hb5R0FJtpF9c/BZdQQtb72Bss7Y2e8z3Q0Xk67TwiTbO5Ibi0ur6yWFVVNfTq5WvAIMDep2UcpVnRQGpXrw1Cajj1DP0/5HK5vQ72+rxAGALffmwIuJ/KfMmMLz5/QVY+rgDVm2bU2tYKQ8MpI9AcmEeftP9YQ3n713YFwOvdW1SYvn7PxHA7gRZHk9AKaEtoc/igy7ZCOzs7Vtw/AQYASsoRySkHkqIAAAAASUVORK5CYII=);
+}
+#addPointButton a i {
+    font-size: 28px;
+}
+        </style>
+    </head>
+    <body onload="init();">
+        <h1 id="title">Mobile Measure</h1>
+        <p id="shortdesc">
+            Measure control workflow adapted to mobile touch devices.
+        </p>
+        <div id="map" class="smallmap">
+        </div>
+            <p>
+                See <a href="./mobile-measure.js">mobile-measure.js</a>
+            </p>
+        </div>
+    </body>
+</html>
