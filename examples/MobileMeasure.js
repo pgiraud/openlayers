@@ -96,6 +96,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         var div = OpenLayers.Control.prototype.draw.apply(this);
 
         var measure = document.createElement("a");
+        measure.id = "mobileMeasure";
         div.appendChild(measure);
         OpenLayers.Element.addClass(measure, "olButton");
         this.button = measure;
@@ -105,7 +106,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
 
         this.helpMessageEl = document.createElement('div');
         this.helpMessageEl.id = 'mobileMeasureHelp';
-        this.map.getViewport().appendChild(this.helpMessageEl);
+        div.appendChild(this.helpMessageEl);
         return div;
     },
 
@@ -120,16 +121,16 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
                 }
                 break;
             case this.addPointButton:
-                button.remove();
+                button.parentNode.removeChild(button);
                 this.addFirstPoint();
                 break;
             case this.newMeasureButton:
-                button.remove();
+                button.parentNode.removeChild(button);
                 this.deactivate();
                 this.activate();
                 break;
             case this.finishButton:
-                button.remove();
+                button.parentNode.removeChild(button);
                 this.map.events.unregister('move', this, this.measure);
                 break;
         }
@@ -143,8 +144,8 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
     },
 
     hideCenter: function() {
-        document.getElementById("centerCross") &&
-            document.getElementById("centerCross").remove();
+        var el = document.getElementById("centerCross");
+        el && el.parentNode.removeChild(el);
     },
 
     deactivate: function() {
@@ -176,7 +177,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Element.addClass(this.button, 'active');
 
         var addPoint = document.createElement('div');
-        this.map.getViewport().appendChild(addPoint);
+        this.div.appendChild(addPoint);
         OpenLayers.Element.addClass(addPoint, 'olButton');
         addPoint.id = 'addPointButton';
 
@@ -220,7 +221,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         this.map.events.register('move', this, this.measure);
 
         var div = document.createElement('div');
-        this.map.getViewport().appendChild(div);
+        this.div.appendChild(div);
         OpenLayers.Element.addClass(div, 'olButton');
         div.id = 'newMeasureButton';
 
@@ -232,7 +233,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         this.helpMessageEl.style.display = '';
 
         div = document.createElement('div');
-        this.map.getViewport().appendChild(div);
+        this.div.appendChild(div);
         OpenLayers.Element.addClass(div, 'olButton');
         div.id = 'finishButton';
 
