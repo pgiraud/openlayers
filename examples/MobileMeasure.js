@@ -155,11 +155,11 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         this.active = false;
 
         this.helpMessageEl.style.display = "none";
-        this.addPointButton &&
+        this.addPointButton && this.addPointButton.parentNode &&
             this.addPointButton.parentNode.removeChild(this.addPointButton);
-        this.finishButton &&
+        this.finishButton && this.finishButton.parentNode &&
             this.finishButton.parentNode.removeChild(this.finishButton);
-        this.newMeasureButton &&
+        this.newMeasureButton && this.newMeasureButton.parentNode &&
             this.newMeasureButton.parentNode.removeChild(this.newMeasureButton);
 
         this.map.removeLayer(this.layer);
@@ -241,7 +241,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Element.addClass(div, 'olButton');
         div.id = 'finishButton';
 
-        var button = document.createElement('a');
+        button = document.createElement('a');
         button.innerHTML = OpenLayers.i18n('Finish');
         div.appendChild(button);
         this.finishButton = div;
