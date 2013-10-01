@@ -15,6 +15,12 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
     addPointButton: null,
 
     /**
+     * Property: finishButton
+     * {DOMElement}
+     */
+    finishButton: null,
+
+    /**
      * Property: newMeasureButton
      * {DOMElement}
      */
@@ -76,6 +82,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
                     strokeColor: 'red',
                     graphicName: 'cross',
                     label: "${label}",
+                    fontColor: 'red',
                     labelAlign: "lt",
                     labelXOffset: 10,
                     labelYOffset: -10
@@ -104,21 +111,27 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
 
     onClick: function(evt) {
         var button = evt.buttonElement;
-        if (button === this.button) {
-            if (this.active) {
+        switch (button) {
+            case this.button:
+                if (this.active) {
+                    this.deactivate();
+                } else {
+                    this.activate();
+                }
+                break;
+            case this.addPointButton:
+                button.remove();
+                this.addFirstPoint();
+                break;
+            case this.newMeasureButton:
+                button.remove();
                 this.deactivate();
-            } else {
                 this.activate();
-            }
-        }
-        if (button == this.addPointButton) {
-            button.remove();
-            this.addFirstPoint();
-        }
-        if (button == this.newMeasureButton) {
-            button.remove();
-            this.deactivate();
-            this.activate();
+                break;
+            case this.finishButton:
+                button.remove();
+                this.map.events.unregister('move', this, this.measure);
+                break;
         }
     },
 
@@ -141,6 +154,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
 
         this.helpMessageEl.style.display = "none";
         this.addPointButton && this.addPointButton.remove();
+        this.finishButton && this.finishButton.remove();
         this.newMeasureButton && this.newMeasureButton.remove();
 
         this.map.removeLayer(this.layer);
@@ -216,6 +230,16 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
 
         this.helpMessageEl.innerHTML = OpenLayers.i18n("Move the map to measure distance");
         this.helpMessageEl.style.display = '';
+
+        div = document.createElement('div');
+        this.map.getViewport().appendChild(div);
+        OpenLayers.Element.addClass(div, 'olButton');
+        div.id = 'finishButton';
+
+        var button = document.createElement('a');
+        button.innerHTML = OpenLayers.i18n('Finish');
+        div.appendChild(button);
+        this.finishButton = div;
     },
 
     /**

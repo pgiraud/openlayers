@@ -79,16 +79,24 @@ div.MobileMeasure a.active {
   user-select: none;
 }
 #addPointButton,
+#finishButton,
 #newMeasureButton {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
     border-radius: 4px 4px 4px 4px;
-    right: 48px;
     padding: 2px;
     position: absolute;
     bottom: 20px;
     z-index: 800;
 }
+#addPointButton,
+#newMeasureButton {
+    right: 48px;
+}
+#finishButton {
+    right: 88px;
+}
 #addPointButton a,
+#finishButton a,
 #newMeasureButton a {
     background: none repeat scroll 0 0;
     background-color: rgba(120, 120, 120, 0.5);
@@ -109,7 +117,8 @@ div.MobileMeasure a.active {
     background-position-x: 8px;
     background-position-y: 8px;
 }
-#addPointButton a {
+#addPointButton a,
+#finishButton a {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAFSOl20AAAAB3RJTUUH2AcWCygF1IlVdQAAAAlwSFlzAAAewgAAHsIBbtB1PgAAAARnQU1BAACxjwv8YQUAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAANklEQVQI12NgYHBgYGBoYBBggAAFMJ+NwQLKZ2HwYahhqGAwgPI5GIBSEj8Y5B8w8DcwMIGEAJvlBcOkypEhAAAAAElFTkSuQmCC);
 }
 #newMeasureButton a {
