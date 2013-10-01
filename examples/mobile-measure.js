@@ -4,6 +4,15 @@ function init(){
     // allow testing of specific renderers via "?renderer=Canvas", etc
 
     map = new OpenLayers.Map('map', {
+        controls: [
+            new OpenLayers.Control.TouchNavigation({
+                dragPanOptions: {
+                    enableKinetic: true
+                }
+            }),
+            new OpenLayers.Control.Zoom(),
+            new OpenLayers.Control.Attribution()
+        ]
     });
     layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
     map.addLayer(layer);
