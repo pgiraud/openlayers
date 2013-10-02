@@ -106,6 +106,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
 
         this.helpMessageEl = document.createElement('div');
         this.helpMessageEl.id = 'mobileMeasureHelp';
+        this.helpMessageEl.style.display = 'none';
         div.appendChild(this.helpMessageEl);
         return div;
     },
