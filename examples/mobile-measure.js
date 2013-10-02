@@ -1,7 +1,18 @@
 var map;
 
+OpenLayers.Util.extend(OpenLayers.Lang.fr,
+    {
+        'Move the map to locate starting point': "Bougez la carte pour localiser le point initial",
+        'Set starting point': "Valider le point initial",
+        'Move the map to measure distance': "Bougez la carte pour effectuer la mesure",
+        'Finish': "Terminer"
+    }
+);
+
 function init(){
     // allow testing of specific renderers via "?renderer=Canvas", etc
+    var lang = (navigator.userLanguage || navigator.language).split("-")[0];
+    OpenLayers.Lang.setCode(lang);
 
     map = new OpenLayers.Map('map', {
         controls: [

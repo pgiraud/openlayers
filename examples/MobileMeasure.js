@@ -186,7 +186,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         addPoint.id = 'addPointButton';
 
         var msg = this.helpMessageEl;
-        msg.innerHTML = OpenLayers.i18n("Move the map to locate start point");
+        msg.innerHTML = OpenLayers.i18n("Move the map to locate starting point");
         msg.style.display = '';
 
         // hide message as soon as map has moved
@@ -198,7 +198,7 @@ MobileMeasure = OpenLayers.Class(OpenLayers.Control, {
         map.events.register('move', null, hide);
 
         var button = document.createElement('a');
-        button.innerHTML = OpenLayers.i18n('Set start point');
+        button.innerHTML = OpenLayers.i18n('Set starting point');
         addPoint.appendChild(button);
         this.addPointButton = addPoint;
 
